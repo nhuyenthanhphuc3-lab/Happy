@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bánh sinh nhật 🎂</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#2a2a4a,#0b0b1a 70%);
+  font-family:system-ui,sans-serif;
+  overflow:hidden;
+}
+
+/* ===== SCENE ===== */
+.scene{
+  width:320px;
+  text-align:center;
+}
+
+/* ===== CAKE WRAP ===== */
+.cake-wrap{
+  position:relative;
+  width:260px;
+  height:300px;
+  margin:0 auto 20px;
+  animation:appear 1.4s ease-out forwards, idle 4s ease-in-out infinite 1.4s;
+  opacity:0;
+}
+@keyframes appear{
+  from{transform:translateY(60px) scale(.9);opacity:0}
+  to{transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes idle{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+
+/* ===== SHADOW ===== */
+.shadow{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+  height:30px;
+  background:radial-gradient(ellipse,rgba(0,0,0,.6),transparent 70%);
+  filter:blur(10px);
+}
+
+/* ===== PLATE ===== */
+.plate{
+  position:absolute;
+  bottom:36px;
+  left:50%;
+  transform:translateX(-50%);
+  width:220px;
+  height:16px;
+  background:linear-gradient(#f2f2f2,#bdbdbd);
+  border-radius:999px;
+}
+
+/* ===== CAKE ===== */
+.cake{
+  position:absolute;
+  bottom:52px;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+}
+
+/* layers */
+.layer{
+  position:relative;
+  margin:0 auto;
+  background:linear-gradient(#ffb3c1,#ff6f91);
+  border-radius:14px 14px 22px 22px;
+  box-shadow:inset 0 -10px rgba(0,0,0,.12),0 10px 20px rgba(0,0,0,.4);
+}
+.layer.bottom{width:200px;height:70px}
+.layer.mid{width:160px;height:60px;margin-top:-10px}
+.layer.top{width:120px;height:50px;margin-top:-10px}
+
+/* icing */
+.icing{
+  position:absolute;
+  top:-14px;
+  left:0;
+  width:100%;
+  height:30px;
+  background:#fff;
+  border-radius:14px;
+}
+.drip{
+  position:absolute;
+  bottom:-14px;
+  width:14px;
+  height:18px;
+  background:#fff;
+  border-radius:50%;
+}
+.drip:nth-child(1){left:20px}
+.drip:nth-child(2){left:55px}
+.drip:nth-child(3){left:90px}
+
+/* ===== CANDLE ===== */
+.candle{
+  position:absolute;
+  top:-55px;
+  left:50%;
+  transform:translateX(-50%);
+  width:12px;
+  height:50px;
+  background:repeating-linear-gradient(
+    45deg,#ffd166,#ffd166 6px,#ff9f1c 6px,#ff9f1c 12px
+  );
+  border-radius:6px;
+}
+.flame{
+  position:absolute;
+  top:-26px;
+  left:50%;
+  transform:translateX(-50%);
+  width:18px;
+  height:26px;
+  background:radial-gradient(circle at 50% 70%,#fff,#ff0 35%,#ff6a00 60%,#ff0000);
+  border-radius:50%;
+  animation:flicker .12s infinite alternate;
+}
+@keyframes flicker{
+  from{transform:translateX(-50%) scale(1) rotate(-2deg)}
+  to{transform:translateX(-50%) scale(.9) rotate(2deg)}
+}
+.glow{
+  position:absolute;
+  top:-40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:70px;
+  height:70px;
+  background:radial-gradient(circle,#ffb000,transparent 70%);
+  opacity:.6;
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:.4}
+  50%{opacity:.8}
+}
+.smoke{
+  position:absolute;
+  top:-20px;
+  left:50%;
+  width:10px;
+  height:10px;
+  background:rgba(200,200,200,.8);
+  border-radius:50%;
+  opacity:0;
+}
+
+/* blown */
+.off .flame,
+.off .glow{display:none}
+.off .smoke{animation:smoke 2s forwards}
+@keyframes smoke{
+  0%{opacity:0;transform:translate(-50%,0) scale(.5)}
+  30%{opacity:.6}
+  100%{opacity:0;transform:translate(-50%,-70px) scale(2)}
+}
+
+/* ===== BUTTON ===== */
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(#ff8fab,#ff4d6d);
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+}
+
+/* ===== CONFETTI ===== */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:14px;
+  top:-20px;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{
+    transform:translateY(120vh) rotate(360deg);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="scene">
+  <div class="cake-wrap" id="cake">
+    <div class="shadow"></div>
+
+    <div class="cake">
+      <div class="layer top">
+        <div class="icing">
+          <div class="drip"></div>
+          <div class="drip"></div>
+          <div class="drip"></div>
+        </div>
+        <div class="candle">
+          <div class="glow"></div>
+          <div class="flame"></div>
+          <div class="smoke"></div>
+        </div>
+      </div>
+
+      <div class="layer mid">
+        <div class="icing"></div>
+      </div>
+
+      <div class="layer bottom">
+        <div class="icing"></div>
+      </div>
+    </div>
+
+    <div class="plate"></div>
+  </div>
+
+  <button onclick="blow()"> Thổi nến</button>
+</div>
+
+<script>
+function blow(){
+  const cake=document.getElementById('cake');
+  cake.classList.add('off');
+
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.animationDuration=2+Math.random()*2+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+</script>
+</body>
+</html>
